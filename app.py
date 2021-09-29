@@ -1,6 +1,5 @@
 from flask import Flask
 from settings.extensions import (db, migrate)
-from urls import bp
 from models import (users, books)
 
 
@@ -12,7 +11,6 @@ def create_app(config_object="settings.env"):
     app = Flask(__name__.split(".")[0])
     app.config.from_object(config_object)
     register_extensions(app)
-    # register_blueprints(app)
     register_shellcontext(app)
 
     return app
@@ -24,17 +22,9 @@ def register_extensions(app):
     migrate.init_app(app, db)
     return None
 
-def register_blueprints(app):
-    """Register Flask blueprints."""
-    app.register_blueprint(bp)
-    return None
-
 def register_shellcontext(app):
     """Register shell context objects."""
 
-    # def shell_context():
-    #     """Shell context objects."""
-    #     return {"db": db, "User": user.models.User}
     shell_context = {
         'db': db,
         "Users": users.Users,
